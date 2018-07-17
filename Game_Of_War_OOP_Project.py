@@ -1,5 +1,5 @@
 #####################################
-### WELCOME TO YOUR OOP PROJECT #####
+### WELCOME TO GAME OF WAR PROJECT ##
 #####################################
 
 # This is an implementation of the popular card game "War" in Pyhton.
