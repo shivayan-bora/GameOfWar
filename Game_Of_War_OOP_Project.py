@@ -2,12 +2,12 @@
 ### WELCOME TO YOUR OOP PROJECT #####
 #####################################
 
-# This is an implementation of the popular card game "War" in Pyhton. The rules
-# are as follows:
+# This is an implementation of the popular card game "War" in Pyhton.
+# The rules are as follows:
 #
-# The deck is divided evenly, with each player receiving 26 cards, dealt one
-# at a time, face down. Anyone may deal first. Each player places his stack of
-# cards face down, in front of him.
+# The deck is divided evenly, with each player receiving 26 cards, dealt
+# one at a time, face down. Anyone may deal first. Each player places
+# his stack of cards face down, in front of him.
 #
 # The Play:
 #
@@ -55,8 +55,9 @@ class Deck:
 
 class Hand:
     '''
-    This is the Hand class. Each player has a Hand, and can add or remove
-    cards from that hand. There should be an add and remove card method here.
+    This is the Hand class. Each player has a Hand, and can add or
+    remove cards from that hand. There should be an add and remove card
+    method here.
     '''
 
     def __init__(self, cards):
@@ -153,47 +154,56 @@ while user.check_hand() and comp.check_hand():
 
         table_cards.extend(user.remove_war_cards())
         table_cards.extend(comp.remove_war_cards())
-
-        # Play cards
-        c_card = comp.play_card()
-        p_card = user.play_card()
-
-        # Add to table_cards
-        table_cards.append(c_card)
-        table_cards.append(p_card)
-
-        # User card is greater
-        if RANKS.index(c_card[1]) < RANKS.index(p_card[1]):
+        if not comp.check_hand():
             user.hand.add_card(table_cards)
-        # Second round of war
-        elif c_card[1] == p_card[1]:
-            while True:
-                if not user.check_hand() or not comp.check_hand():
-                    break
-                war_count += 1
-                print("WAR AGAIN!!!")
-                table_cards.append(user.hand.remove_card())
-                table_cards.append(comp.hand.remove_card())
-
-                # Play cards
-                c_card = comp.play_card()
-                p_card = user.play_card()
-
-                # Add to table_cards
-                table_cards.append(c_card)
-                table_cards.append(p_card)
-
-                if RANKS.index(c_card[1]) < RANKS.index(p_card[1]):
-                    user.hand.add_card(table_cards)
-                    break
-                elif c_card[1] == p_card[1]:
-                    continue
-                else:
-                    comp.hand.add_card(table_cards)
-                    break
-        # Computer card is greater
-        else:
+        elif not user.check_hand():
             comp.hand.add_card(table_cards)
+        else:
+            # Play cards
+            c_card = comp.play_card()
+            p_card = user.play_card()
+
+            # Add to table_cards
+            table_cards.append(c_card)
+            table_cards.append(p_card)
+
+            # User card is greater
+            if RANKS.index(c_card[1]) < RANKS.index(p_card[1]):
+                user.hand.add_card(table_cards)
+            # Second round of war
+            # Need to check this logic
+            elif c_card[1] == p_card[1]:
+                while True:
+                    if not user.check_hand() or not comp.check_hand():
+                        break
+                    war_count += 1
+                    print("WAR AGAIN!!!")
+                    table_cards.append(user.hand.remove_card())
+                    table_cards.append(comp.hand.remove_card())
+                    if not comp.check_hand():
+                        user.hand.add_card(table_cards)
+                    elif not user.check_hand():
+                        comp.hand.add_card(table_cards)
+                    else:
+                        # Play cards
+                        c_card = comp.play_card()
+                        p_card = user.play_card()
+
+                        # Add to table_cards
+                        table_cards.append(c_card)
+                        table_cards.append(p_card)
+
+                        if RANKS.index(c_card[1]) < RANKS.index(p_card[1]):
+                            user.hand.add_card(table_cards)
+                            break
+                        elif c_card[1] == p_card[1]:
+                            continue
+                        else:
+                            comp.hand.add_card(table_cards)
+                            break
+            # Computer card is greater
+            else:
+                comp.hand.add_card(table_cards)
     # If War didn't occur
     else:
         if RANKS.index(c_card[1]) < RANKS.index(p_card[1]):
